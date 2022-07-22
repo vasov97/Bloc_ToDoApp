@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ToDoItem extends StatefulWidget {
-  ToDoItem({required this.note, required this.content, required this.isDone});
+import '../blocs/todo_bloc.dart';
+import '../data_source/models/todo_model.dart';
+import '../pages/todo_details.dart';
 
-  final String note;
-  final String content;
-  late bool isDone;
+class ToDoItem extends StatelessWidget {
+  ToDoItem({required this.toDoModel});
 
-  @override
-  State<ToDoItem> createState() => _ToDoItemState();
-}
+  ToDoModel toDoModel;
 
-//dismisable dodaj
-class _ToDoItemState extends State<ToDoItem> {
   @override
   Widget build(BuildContext context) {
-    return CheckboxListTile(
-      title: Text(widget.content.toString()),
-      subtitle: Text(widget.note.toString()),
-      controlAffinity: ListTileControlAffinity.leading,
-      value: widget.isDone,
-      onChanged: (bool? value) {
-        setState(() {
-          widget.isDone = value!;
-        });
-      },
+    ToDoBloc toDoBloc = context.read<ToDoBloc>();
+    return ListTile(
+      title: Text(toDoModel.content.toString()),
+      subtitle: Text(toDoModel.note.toString()),
+      leading: Checkbox(
+        value: toDoModel.isDone,
+        onChanged: (value) {
+          //toggle
+          toDoModel.isDone = value!;
+        },
+      ),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ToDoDetails(
+            toDoModel: toDoModel,
+          ),
+        ),
+      ),
     );
   }
 }

@@ -5,14 +5,39 @@ class StatsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: const [
-          Text('Completed ToDos'),
-          Text('2'),
-          Text('Active ToDos'),
-          Text('1'),
-        ],
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              'Completed ToDos\n',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              '2\n',
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+            Text(
+              'Active ToDos\n',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              '1',
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

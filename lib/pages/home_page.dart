@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp_bloc/pages/stats_page.dart';
 import 'package:todoapp_bloc/pages/todos_page.dart';
 
-import 'add_todo.dart';
+import '../blocs/todo_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,52 +14,55 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _pageIndex = 0;
+  bool isHomePage = true;
 
-  final List<Widget> _pages = const [ToDosPage(), StatsPage()];
+  //final List<Widget> _pages = [ToDosPage(), StatsPage()];
 
   @override
   Widget build(BuildContext context) {
+    ToDoBloc toDoBloc = context.read<ToDoBloc>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vanilla example'),
+        title: const Text('Vanilla example'),
         actions: [
+          isHomePage
+              ? PopupMenuButton(
+                  icon: const Icon(Icons.filter_list_rounded),
+                  onSelected: (int item) => onSelected(context, item),
+                  itemBuilder: (context) => [
+                    const PopupMenuItem<int>(
+                      value: 0,
+                      child: Text('Show All'),
+                    ),
+                    const PopupMenuItem<int>(
+                      value: 1,
+                      child: Text('Show Active'),
+                    ),
+                    const PopupMenuItem<int>(
+                      value: 2,
+                      child: Text('Show Completed'),
+                    ),
+                  ],
+                )
+              : SizedBox(),
           PopupMenuButton(
-            icon: const Icon(Icons.filter_list_rounded),
             onSelected: (int item) => onSelected(context, item),
             itemBuilder: (context) => [
               const PopupMenuItem<int>(
                 value: 0,
-                child: Text('Settings'),
+                child: Text('Mark all complete'),
               ),
               const PopupMenuItem<int>(
                 value: 1,
-                child: Text('Share'),
-              ),
-              const PopupMenuItem<int>(
-                value: 2,
-                child: Text('Share'),
-              ),
-            ],
-          ),
-          PopupMenuButton(
-            onSelected: (int item) => onSelected(context, item),
-            itemBuilder: (context) => [
-              const PopupMenuItem<int>(
-                value: 0,
-                child: Text('Settings'),
-              ),
-              const PopupMenuItem<int>(
-                value: 1,
-                child: Text('Share'),
+                child: Text('Clear completed'),
               ),
             ],
           ),
         ],
       ),
-      body: _pages[_pageIndex],
+      body: pageSelect(_pageIndex),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const AddToDo())),
+        onPressed: () => Navigator.pushNamed(context, '/add'),
         backgroundColor: Colors.lightBlueAccent,
         child: const Icon(
           Icons.add,
@@ -80,6 +84,7 @@ class _HomePageState extends State<HomePage> {
         onTap: (index) {
           setState(() {
             _pageIndex = index;
+            isHomePage = !isHomePage;
           });
         },
       ),
@@ -98,6 +103,14 @@ class _HomePageState extends State<HomePage> {
       case 2:
         print('Clear completed');
         break;
+    }
+  }
+
+  Widget pageSelect(int index) {
+    if (index == 0) {
+      return ToDosPage();
+    } else {
+      return StatsPage();
     }
   }
 }
