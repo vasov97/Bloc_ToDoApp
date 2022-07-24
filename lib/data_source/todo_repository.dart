@@ -4,9 +4,11 @@ import 'models/todo_model.dart';
 class ToDoRepository {
   final Data _data = Data();
 
+  Data get data => _data;
+
   Future<void> addToDo(ToDoModel toDoModel) async => _data.addToDo(toDoModel);
 
-  Future<List<ToDoModel>> clearCompleted() async => _data.clearCompleted();
+  Future<void> clearCompleted() async => _data.clearCompleted();
 
   Future<void> deleteToDo(ToDoModel toDoModel) async =>
       _data.deleteToDo(toDoModel);
@@ -24,4 +26,7 @@ class ToDoRepository {
   Future<void> editToDo(int id, String content, String note) async {
     _data.editToDo(content, note, id);
   }
+
+  Future<ToDoModel> checkToDo(ToDoModel toDoModel, bool isDone) async =>
+      _data.checkToDo(toDoModel, isDone);
 }

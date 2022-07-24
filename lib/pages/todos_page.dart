@@ -17,8 +17,9 @@ class ToDosPage extends StatelessWidget {
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data!.isEmpty) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('Error happened')));
+            const Center(
+              child: Text('Error happened'),
+            );
           }
           return ListView.builder(
             itemCount: data.length,

@@ -13,22 +13,24 @@ class ToDoBloc {
 
   ToDoBloc({required this.toDoRepository});
 
-  Future<void> showActive(ToDoModel todo) async {
-    final List<ToDoModel> completedToDos = [];
+  Future<List<ToDoModel>> showActive() async {
+    final List<ToDoModel> activeToDos = [];
     List<ToDoModel> list = await toDoRepository.getToDos();
     for (ToDoModel toDo in list) {
-      if (!toDo.isDone) completedToDos.add(toDo);
+      if (!toDo.isDone) activeToDos.add(toDo);
     }
-    controller.sink.add(completedToDos);
+    controller.sink.add(activeToDos);
+    return activeToDos;
   }
 
-  void showCompleted() async {
+  Future<List<ToDoModel>> showCompleted() async {
     final List<ToDoModel> completedToDos = [];
     List<ToDoModel> list = await toDoRepository.getToDos();
     for (ToDoModel toDo in list) {
       if (toDo.isDone) completedToDos.add(toDo);
     }
     controller.sink.add(completedToDos);
+    return completedToDos;
   }
 
   Future<void> markAllComplete() async {
@@ -57,6 +59,11 @@ class ToDoBloc {
 
   Future<void> editToDo(String content, String note, int id) async {
     await toDoRepository.editToDo(id, content, note);
+    controller.sink.add(await toDoRepository.getToDos());
+  }
+
+  Future<void> checkToDo(ToDoModel toDoModel, bool isDone) async {
+    await toDoRepository.checkToDo(toDoModel, isDone);
     controller.sink.add(await toDoRepository.getToDos());
   }
 

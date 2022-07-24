@@ -18,10 +18,7 @@ class ToDoItem extends StatelessWidget {
       subtitle: Text(toDoModel.note.toString()),
       leading: Checkbox(
         value: toDoModel.isDone,
-        onChanged: (value) {
-          //toggle
-          toDoModel.isDone = value!;
-        },
+        onChanged: (value) => toDoBloc.checkToDo(toDoModel, value!),
       ),
       onTap: () => Navigator.push(
         context,

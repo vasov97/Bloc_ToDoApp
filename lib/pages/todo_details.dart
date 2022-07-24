@@ -6,15 +6,6 @@ import 'package:todoapp_bloc/widgets/todo_item.dart';
 import '../data_source/models/todo_model.dart';
 import 'edit_todo.dart';
 
-/*
-User can Delete the Todo by tapping the Icon in the top-right of the screen.
-When the button is tapped, the details Screen should be closed and
-the user should be presented with the List of Todos.
-A SnackBar must be displayed with the Title of the Todo that was
-just removed and a button to Undo this action. When the Undo button is clicked,
-the removed item should be appended to the end of the Todo List.
-* */
-
 class ToDoDetails extends StatelessWidget {
   ToDoDetails({Key? key, required this.toDoModel}) : super(key: key);
   ToDoModel toDoModel;
@@ -29,6 +20,7 @@ class ToDoDetails extends StatelessWidget {
           IconButton(
             onPressed: () {
               toDoBloc.removeTodo(toDoModel);
+              Navigator.pop(context);
             },
             icon: const Icon(Icons.delete),
           ),

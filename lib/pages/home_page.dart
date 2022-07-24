@@ -16,8 +16,6 @@ class _HomePageState extends State<HomePage> {
   int _pageIndex = 0;
   bool isHomePage = true;
 
-  //final List<Widget> _pages = [ToDosPage(), StatsPage()];
-
   @override
   Widget build(BuildContext context) {
     ToDoBloc toDoBloc = context.read<ToDoBloc>();
@@ -28,33 +26,31 @@ class _HomePageState extends State<HomePage> {
           isHomePage
               ? PopupMenuButton(
                   icon: const Icon(Icons.filter_list_rounded),
-                  onSelected: (int item) => onSelected(context, item),
                   itemBuilder: (context) => [
-                    const PopupMenuItem<int>(
-                      value: 0,
-                      child: Text('Show All'),
+                    PopupMenuItem<int>(
+                      child: const Text('Show All'),
+                      onTap: () => toDoBloc.getToDos(),
                     ),
-                    const PopupMenuItem<int>(
-                      value: 1,
-                      child: Text('Show Active'),
+                    PopupMenuItem<int>(
+                      child: const Text('Show Active'),
+                      onTap: () => toDoBloc.showActive(),
                     ),
-                    const PopupMenuItem<int>(
-                      value: 2,
-                      child: Text('Show Completed'),
+                    PopupMenuItem<int>(
+                      child: const Text('Show Completed'),
+                      onTap: () => toDoBloc.showCompleted(),
                     ),
                   ],
                 )
-              : SizedBox(),
+              : const SizedBox(),
           PopupMenuButton(
-            onSelected: (int item) => onSelected(context, item),
             itemBuilder: (context) => [
-              const PopupMenuItem<int>(
-                value: 0,
-                child: Text('Mark all complete'),
+              PopupMenuItem<int>(
+                child: const Text('Mark all complete'),
+                onTap: () => toDoBloc.markAllComplete(),
               ),
-              const PopupMenuItem<int>(
-                value: 1,
-                child: Text('Clear completed'),
+              PopupMenuItem<int>(
+                child: const Text('Clear completed'),
+                onTap: () => toDoBloc.clearAllCompleted(),
               ),
             ],
           ),
@@ -90,20 +86,6 @@ class _HomePageState extends State<HomePage> {
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
-  }
-
-  void onSelected(BuildContext context, int item) {
-    switch (item) {
-      case 0:
-        print('Mark all complete');
-        break;
-      case 1:
-        print('Clear completed');
-        break;
-      case 2:
-        print('Clear completed');
-        break;
-    }
   }
 
   Widget pageSelect(int index) {

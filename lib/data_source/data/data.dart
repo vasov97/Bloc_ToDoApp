@@ -4,6 +4,7 @@ class Data {
   List<ToDoModel> _toDos = [
     ToDoModel(content: 'content1', note: 'note1', isDone: false),
     ToDoModel(content: 'content2', note: 'note2', isDone: true),
+    ToDoModel(content: 'content2', note: 'note2', isDone: false),
   ];
 
   List<ToDoModel> get toDos => _toDos;
@@ -29,31 +30,24 @@ class Data {
     return completed;
   }
 
-  List<ToDoModel> clearCompleted() {
-    for (ToDoModel toDo in toDos) {
-      if (toDo.isDone) {
-        toDos.remove(toDo);
-      }
-    }
-    return toDos;
-  }
+  void clearCompleted() =>
+      toDos.removeWhere((element) => element.isDone == true);
 
-  void addToDo(ToDoModel newToDo) {
-    // ToDoModel newToDo = ToDoModel(
-    //     content: toDoModel.content,
-    //     note: toDoModel.note,
-    //     isDone: toDoModel.isDone);
-    toDos.add(newToDo);
-  }
+  void addToDo(ToDoModel newToDo) => toDos.add(newToDo);
 
-  void deleteToDo(ToDoModel toDoModel) {
-    toDos.remove(toDoModel);
-  }
+  void deleteToDo(ToDoModel toDoModel) => toDos.remove(toDoModel);
 
   void editToDo(String content, String note, int id) {
     int index = toDos.indexWhere((element) => element.id == id);
     toDos[index].content = content;
     toDos[index].note = note;
+  }
+
+  ToDoModel checkToDo(ToDoModel toDoModel, bool isDone) {
+    int index = toDos.indexWhere((element) => element.id == toDoModel.id);
+    ToDoModel toDo = toDos[index];
+    toDo.isDone = isDone;
+    return toDo;
   }
 
   void markAllComplete() {
