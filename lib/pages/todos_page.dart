@@ -25,7 +25,7 @@ class ToDosPage extends StatelessWidget {
             itemCount: data.length,
             itemBuilder: (context, index) {
               return Dismissible(
-                key: const ValueKey('dismiss'),
+                key: UniqueKey(),
                 child: ToDoItem(toDoModel: data[index]),
                 onDismissed: (item) => toDoBloc.removeTodo(data[index]),
               );

@@ -26,7 +26,7 @@ class ToDoRepository {
   Future<void> editToDo(int id, String content, String note) async {
     _data.editToDo(content, note, id);
   }
-
+ 
   Future<ToDoModel> checkToDo(ToDoModel toDoModel, bool isDone) async =>
       _data.checkToDo(toDoModel, isDone);
 }
